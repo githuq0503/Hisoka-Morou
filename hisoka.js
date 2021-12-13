@@ -323,20 +323,7 @@ module.exports = hisoka = async (hisoka, m, chatUpdate) => {
                 result = anu[Math.floor(Math.random() * anu.length)]
                 hisoka.sendMessage(m.chat, { image: { url: result.image }, caption: `⭔ Title : ${result.title}\n⭔ Source : ${result.source}\n⭔ Media Url : ${result.image}` }, { quoted: m })
             }
-            break
-            case 'porno': case 'porn': case 'bokep': {
-                m.reply(mess.wait)
-                anu = await porno()
-                hisoka.sendMessage(m.chat, { video: { url: 'https://tikporntok.com/'+anu.video }, caption: `⭔ Title : ${anu.title}\n⭔ Viewers : ${anu.views}\n⭔ Tags : ${anu.tags}\n⭔ Likes : ${anu.like}\n⭔ Dislikes : ${anu.dislike}\n⭔ Favourite : ${anu.favorite}\n⭔ Time Upload : ${anu.upload}\n⭔ Description : ${anu.desc}\n⭔ Source : https://tikporntok.com/${anu.source}` }, { quoted: m })
-            }
-            break
-            case 'hentai': {
-                m.reply(mess.wait)
-                anu = await hentai()
-                result = anu[Math.floor(Math.random() * anu.length)]
-                hisoka.sendMessage(m.chat, { video: { url: result.video_1 }, caption: `⭔ Title : ${result.title}\n⭔ Category : ${result.category}\n⭔ Mimetype : ${result.type}\n⭔ Views : ${result.views_count}\n⭔ Shares : ${result.share_count}\n⭔ Source : ${result.link}\n⭔ Media Url : ${result.video_1}` }, { quoted: m })
-            }
-            break
+            break          
             case 'quotesanime': case 'quoteanime': {
                 anu = await quotesAnime()
                 result = anu[Math.floor(Math.random() * anu.length)]
@@ -588,8 +575,6 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
 
 ┌──⭓ *Random Menu*
 │
-│⭔ ${prefix}porno
-│⭔ ${prefix}hentai
 │⭔ ${prefix}quotesanime
 │⭔ ${prefix}motivasi
 │⭔ ${prefix}dilanquote
