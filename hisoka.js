@@ -14,6 +14,8 @@ const axios = require('axios')
 const { fromBuffer } = require('file-type')
 const path = require('path')
 const os = require('os')
+const xfar = require('xfarr-api');
+const hx = require('hxz-api');
 const speed = require('performance-now')
 const { performance } = require('perf_hooks')
 const { pinterest, wallpaper, wikimedia, porno, hentai, quotesAnime } = require('./lib/scraper')
@@ -317,6 +319,12 @@ module.exports = hisoka = async (hisoka, m, chatUpdate) => {
                 hisoka.sendMessage(m.chat, { image: { url: anu }, caption: `Download From ${text}` }, { quoted: m})
             }
             break
+            case 'animecouple': {
+                m.reply(mess.wait)
+                let anu = await getBuffer(api('zenz', '/api/random/couples, 'apikey'))
+                hisoka.sendMessage(m.chat, { image: { url: anu }, caption: `Download From ${text}` }, { quoted: m})
+            }
+            break
             case 'wikimedia': {
                 m.reply(mess.wait)
                 anu = wikimedia(text)
@@ -437,6 +445,26 @@ module.exports = hisoka = async (hisoka, m, chatUpdate) => {
                 }
                 hisoka.sendMessage(m.chat, buttonMessage, { quoted: m })
             }
+            break
+            case 'mp4': case 'ytmp4':
+                if (!text) throw 'Masukkan Query Link!'
+                if (!q) return m.reply(lang.wrongFormat(prefix))
+                if (!isUrl(q)) return m.reply(lang.wrongFormat(prefix))
+                if (!q.includes('youtu.be') && !q.includes('youtube.com')) return m.reply(lang.wrongFormat(prefix))
+                await m.reply(lang.wait())
+                xfar.Youtube(text).then(async (data) => {
+                    let txt = `*----「 YOUTUBE VIDEO 」----*\n\n`
+                    txt += `*📟 Quality :* ${data.medias[1].quality}\n`
+                    txt += `*🎞️ Type :* ${data.medias[1].extension}\n`
+                    txt += `*💾 Size :* ${data.medias[1].formattedSize}\n`
+                    txt += `*📚 Url Source :* ${data.url}\n\n`
+                    txt += `*Mohon tunggu sebentar kak, sedang proses pengiriman...*`
+                    sendFileFromUrl(m.chat, data.thumbnail, txt, m)
+                    hisoka.sendMessage(m.chat, {video: {url: data.medias[1].url}})
+            	  })
+                .catch((err) => {
+                    m.reply(lang.err())
+                })
             break
             case 'twittermp3': case 'twitteraudio': {
                 if (!text) throw 'Masukkan Query Link!'
@@ -561,6 +589,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
 │⭔ ${prefix}twittermp3 [url]
 │⭔ ${prefix}facebook [url]
 │⭔ ${prefix}pinterestdl [url]
+│⭔ ${prefix}ytmp4 [url]
 │
 └───────⭓
 
